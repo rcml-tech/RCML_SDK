@@ -48,7 +48,7 @@ namespace RCML {
     void setB(BaseTypes::Angle b);
     void setC(BaseTypes::Angle c);
     
-    virtual CCoordinatePtr getAsCoordinate() override;
+    virtual CCoordinatePtr getAsCoordinatePtr() override;
 
   };
 

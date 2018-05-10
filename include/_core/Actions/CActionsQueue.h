@@ -16,7 +16,7 @@ namespace RCML {
 
 namespace RCML {
 
-  template class std::map<BaseTypes::Identifier, CActionPtr>;
+  //template class std::map<BaseTypes::Identifier, CActionPtr>;
 
   class RCML_SDK_API CActionsQueue {
   public:

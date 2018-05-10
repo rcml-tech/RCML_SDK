@@ -20,7 +20,7 @@ namespace RCML {
     CCoordinate(BaseTypes::IndexCoordinateGroup indexGroup);
     
   public:        
-    virtual CCoordinatePtr getAsCoordinate() = 0;
+    virtual CCoordinatePtr getAsCoordinatePtr() = 0;
     
     BaseTypes::Index getIndex() const;
     

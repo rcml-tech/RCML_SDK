@@ -1,11 +1,13 @@
 #ifndef __RCML_Utils_CMap_h
 #define __RCML_Utils_CMap_h
 
-#include <_core/RCML_sdk.h>
-#include <_core/DataTypes/BaseTypes.h>
-
 #include <map>
 #include <vector>
+#include <memory>
+
+#include <_core/RCML_sdk.h>
+#include <_core/DataTypes/BaseTypes.h>
+#include <_core/Exceptions/CException.h>
 
 namespace RCML {
   namespace Utils {
@@ -15,24 +17,24 @@ namespace RCML {
       typedef std::vector<TItem> CItemVector;
       typedef std::map<BaseTypes::Index, TItem> CItemMap;
       
-    protected:
+    private:
       CItemMap m_items;
-      
+
+    protected:
       void setItems(CItemVector items) {
-        for(auto item : items){
+        for (auto item : items) {
           add(item);
-        }         
+        }
       }
     
     public:
-      
       CMap() {};
       
       CMap(CItemVector items) {
         setItems(items);
       }
       
-      CMap(CMap& map) {
+      CMap(const CMap& map) {
         m_items = map.m_items;
       }
       
@@ -45,83 +47,32 @@ namespace RCML {
       }
       
       void add(TItem item){ 
-        m_items.emplace(item.getIndex(), item); 
+        BaseTypes::Index index = item.getIndex();
+        std::pair<typename CItemMap::iterator, bool> res = m_items.emplace(index, item);
+
+        if (!res.second) {
+          throw CExceptionPtr(new CException("The item with id #" + std::to_string(index) + " is already in the map"));
+        }
       }
       
-      TItem get(BaseTypes::Index index){
-        return m_items.at(index);
+      TItem get(BaseTypes::Index index) {
+        auto res = m_items.find(index);
+        if (res == m_items.end()) {
+          throw CExceptionPtr(new CException("There isn't item with id #" + std::to_string(index) + " in the map"));
+        }
+
+        return res->second;
       }
       
-      virtual void remove(TItem item){
-        m_items.erase(item.getIndex());
+      void remove(BaseTypes::Index index) {
+        m_items.erase(index);
       }
       
-      virtual void clear() {
+      void clear() {
         m_items.clear();
       }
       
     };    
-    
-    template<class TItem> class RCML_SDK_API CPointersMap {
-    public:
-      typedef std::vector<TItem> CItemVector;
-      typedef std::map<BaseTypes::Index, TItem> CItemMap;
-      
-    private:
-      CItemMap m_items;
-      
-    protected:
-      
-      void setItems(CItemVector items){
-        for(auto& item : items){
-          add(item);
-        }         
-      }
-    
-    public:
-      
-      CPointersMap() {};
-
-      CPointersMap(CItemVector items) {
-        for (auto item : items) {
-          add(item);
-        }
-      }
-
-      CPointersMap(CPointersMap& map) {
-        m_items = map.m_items;
-      }
-      
-      CItemVector getItems() const {
-        CItemVector r;
-        for(auto& it : m_items){
-          r.emplace_back(it.second);
-        }
-        
-        return r;
-      }
-      
-       void add(TItem item) { 
-        m_items.emplace(item->getIndex(), item); 
-      }
-       
-      TItem get(BaseTypes::Index index) {
-        auto res = m_items.find(index);
-        if(res == m_items.end()) {
-          return nullptr;
-        }
-        
-        return res->second;
-      }
-      
-      virtual void remove(TItem item){
-        m_items.erase(item->getIndex());
-      }
-      
-      virtual void clear(){
-        m_items.clear();
-      }
-    };  
   }
 }
 

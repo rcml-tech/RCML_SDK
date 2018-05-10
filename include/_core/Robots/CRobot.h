@@ -9,7 +9,7 @@
 namespace RCML {
   class RCML_SDK_API CRobot;
   
-  template class std::shared_ptr<CRobot>;
+  //template class std::shared_ptr<CRobot>;
   typedef std::shared_ptr<CRobot> CRobotPtr;
 }
 

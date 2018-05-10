@@ -23,7 +23,7 @@ namespace RCML {
     static CCoordinateJointPtr create();
     static CCoordinateJointPtr getAsCoordinateJoint(CCoordinatePtr coordinate);
      
-    virtual CCoordinatePtr getAsCoordinate() override;
+    virtual CCoordinatePtr getAsCoordinatePtr() override;
     
   };
 

@@ -3,14 +3,14 @@
 
 #include <_core/RCML_sdk.h>
 #include <_core/Coordinates/CCoordinate.h>
-#include <_core/Utils/CMap.h>
+#include <_core/Utils/CMapPointers.h>
 
 namespace RCML {
 
-  class RCML_SDK_API CCoordinates : public Utils::CPointersMap<CCoordinatePtr> {
+  class RCML_SDK_API CCoordinates : public Utils::CMapPointers<CCoordinate> {
     
   public:
-    typedef Utils::CPointersMap<CCoordinatePtr> InheritedMap;
+    typedef Utils::CMapPointers<CCoordinate> InheritedMap;
     
     CCoordinates();
     CCoordinates(const CCoordinates& obj);
