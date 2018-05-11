@@ -55,6 +55,18 @@ namespace RCML {
     RoboDKTypes::ItemPtr m_robot = nullptr;
     
     bool m_collisionDetect = false;
+    double m_minStepCollisions = -1;
+
+    typedef std::map<BaseTypes::Index, RoboDKTypes::ItemPtr> ItemPtrMap;
+
+    ItemPtrMap tools;
+    ItemPtrMap bases;
+
+    BaseTypes::Index activeTool = 0;
+    BaseTypes::Index activeBase = 0;
+
+    void loadIndOptions(Types::CJson settings, std::string optionName, ItemPtrMap &opts, int itemType = -1);
+
   };
 
   typedef std::shared_ptr<CRoboDKRobot> CRoboDKRobotPtr;
